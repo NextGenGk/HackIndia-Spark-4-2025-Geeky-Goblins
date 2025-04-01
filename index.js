@@ -129,6 +129,54 @@ app.get("/input", (req, res) => {
   res.render("input.ejs");
 })
 
+app.post('/input', async (req, res) => {
+  try {
+    console.log("Received form data:", req.body);
+    
+    // Retrieve user id from req.user if using authentication, otherwise fallback to req.body.user_id
+    const userId = req.user ? req.user.id : req.body.user_id;
+    
+    const {
+      b_name,
+      loc,
+      type_p_s,
+      description,
+      monthly_revenue,
+      numOfEmp,
+      challenges,
+      govtschemeavail,
+      b_type,
+    } = req.body;
+
+    const queryText = `
+      INSERT INTO input 
+        (b_name, loc, type_p_s, description, monthly_revenue, numofemp, challenges, govtschemeavail, b_type, user_id)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+      RETURNING *
+    `;
+    const values = [
+      b_name,
+      loc,
+      type_p_s,
+      description,
+      monthly_revenue,
+      numOfEmp, // Corrected variable name
+      challenges,
+      govtschemeavail,
+      b_type,
+      userId
+    ];
+
+    const result = await pool.query(queryText, values);
+    console.log("Insert result:", result.rows[0]);
+    res.json({ success: true, data: result.rows[0] });
+  } catch (error) {
+    console.error('Error inserting data:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+
 app.get("/auth/google",
   passport.authenticate("google", {
     scope: ["profile", "email"],
@@ -220,7 +268,7 @@ passport.use("google",
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/secrets",
+      callbackURL: "https://hackindia-spark-4-2025-geeky-goblins.onrender.com/auth/google/secrets",
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
     async (accessToken, refreshToken, profile, cb) => {
