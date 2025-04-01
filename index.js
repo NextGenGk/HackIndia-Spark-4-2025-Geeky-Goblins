@@ -43,6 +43,7 @@ const db = new pg.Client({
   database: process.env.PG_DATABASE,
   password: process.env.PG_PASSWORD,
   port: process.env.PG_PORT,
+  ssl: { rejectUnauthorized: true },
 });
 db.connect();
 
@@ -80,26 +81,6 @@ app.get("/dashboard", (req, res) => {
   }
 });
 
-async function updateTip() {
-  try {
-      const response = await axios.get('https://tips-api-qkx8.onrender.com');
-      if (response.data && response.data.tips_title) {
-          cachedTip = response.data;
-          console.log("Updated Tip:", cachedTip.tips_title);
-      } else {
-          console.log("Invalid API response:", response.data);
-      }
-  } catch (error) {
-      console.error('Error fetching tip:', error);
-  }
-}
-
-// Fetch the first tip before starting the interval
-await updateTip();
-
-// Refresh tip every 10 seconds
-setInterval(updateTip, 10000);
-
 app.get('/loading', async (req, res) => {
   try {
     const response = await axios.get('https://tips-api-qkx8.onrender.com');  // Your tips API
@@ -129,7 +110,7 @@ app.get("/news", (req, res) => {
 });
 
 app.get("/intro", (req, res) =>{
-  res.render("loading.ejs");
+  res.render("intro.ejs");
 });
 
 // app.get("/loading", async (req, res) => {
