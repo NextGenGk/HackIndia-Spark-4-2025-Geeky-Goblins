@@ -3,12 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task schedule</title>
+    <title>Task Plan | Slobby</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .task-card {
+            transition: all 0.3s ease;
+        }
+        .task-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(110, 58, 255, 0.1);
+        }
+        .nav-button:hover {
+            transform: scale(1.1);
+        }
+        .priority-high {
+            border-left: 4px solid #EF4444;
+        }
+        .priority-medium {
+            border-left: 4px solid #F59E0B;
+        }
+        .priority-low {
+            border-left: 4px solid #10B981;
+        }
+    </style>
 </head>
-<body>
-    monthly and weekly content
-    <%= monthly_task  %>
-    <%= weekly_task  %>
-    <%= supportive_task  %>
+<body class="bg-gray-50 min-h-screen flex flex-col px-6 py-6 dark:bg-gray-900">
+    
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6 bg-gradient-to-r from-[#6E3AFF] to-[#AD49E1] p-4 rounded-xl shadow-lg">
+        <h1 class="text-xl font-bold text-white flex items-center">
+            <i class="fas fa-calendar-alt mr-2"></i>Task Plan
+        </h1>
+        <div class="flex items-center space-x-3">
+            <button onclick="window.location.href='dashboard.html'" class="text-white text-sm hidden sm:inline-flex items-center">
+                <i class="fas fa-arrow-left mr-1"></i> Back to Dashboard
+            </button>
+        </div>
+    </div>
+    
+    <!-- Content -->
+    <main class="flex-grow space-y-8 max-w-3xl mx-auto w-full">
+        <!-- Monthly Tasks Section -->
+        <section>
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-bold text-[#6E3AFF] dark:text-indigo-100 flex items-center">
+                    <i class="fas fa-calendar-star mr-2 text-[#AD49E1]"></i> Monthly Tasks
+                </h2>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- Task Card 1 -->
+                <div class="task-card bg-white p-5 rounded-xl shadow-md border-l-4 priority-high dark:bg-gray-800">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Conduct a sales promotion (e.g., discounts on bulk purchases or festive offers) to attract new customers.</h3>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="text-gray-400 hover:text-[#6E3AFF] dark:hover:text-indigo-400">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Task Card 2 -->
+                <div class="task-card bg-white p-5 rounded-xl shadow-md border-l-4 priority-medium dark:bg-gray-800">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Organize a loyalty program (e.g., stamp cards for repeat purchases) to retain existing customers.</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task Card 3 (Added) -->
+                <div class="task-card bg-white p-5 rounded-xl shadow-md border-l-4 priority-low dark:bg-gray-800">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Train staff monthly on product knowledge, customer service, and basic digital tools.</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task Card 4 (Added) -->
+                <div class="task-card bg-white p-5 rounded-xl shadow-md border-l-4 priority-medium dark:bg-gray-800">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Analyze government schemes (e.g., MUDRA loans, PMEGP) for financial aid or subsidized training programs.</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task Card 5 (Added) -->
+                <div class="task-card bg-white p-5 rounded-xl shadow-md border-l-4 priority-high dark:bg-gray-800">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Audit inventory to optimize stock levels and reduce waste</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weekly Tasks Section -->
+        <section>
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-bold text-[#6E3AFF] dark:text-indigo-100 flex items-center">
+                    <i class="fas fa-calendar-week mr-2 text-[#6EACDA]"></i> Weekly Tasks
+                </h2>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- Task Card 1 -->
+                <div class="task-card bg-white p-5 rounded-xl shadow-md border-l-4 priority-high dark:bg-gray-800">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Post 3-4 times weekly on social media (Facebook/Instagram) showcasing products, offers, and customer testimonials</h3>
+                            <div class="flex items-center mt-3 space-x-2">
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Task Card 2 -->
+                <div class="task-card bg-white p-5 rounded-xl shadow-md border-l-4 priority-medium dark:bg-gray-800">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100"> Collect and review customer feedback via QR code-linked forms or in-store slips.</h3>
+                       
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Task Card 3 -->
+                <div class="task-card bg-white p-5 rounded-xl shadow-md border-l-4 priority-low dark:bg-gray-800">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Analyze sales trends</h3>
+                            <p class="text-gray-600 dark:text-gray-300 mt-1">Review weekly sales data and identify patterns</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task Card 4 (Added) -->
+                <div class="task-card bg-white p-5 rounded-xl shadow-md border-l-4 priority-medium dark:bg-gray-800">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100"> Run SMS/email campaigns highlighting weekly discounts or new arrivals</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task Card 5 (Added) -->
+                <div class="task-card bg-white p-5 rounded-xl shadow-md border-l-4 priority-low dark:bg-gray-800">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Check competitor pricing and adjust promotions strategically</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Create Todo Button -->
+        <div class="mt-8 text-center">
+            <button onclick="window.location.href='task.html'" class="bg-gradient-to-r from-[#6E3AFF] to-[#AD49E1] text-white px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all">
+                <i class="fas fa-plus mr-2"></i> Create Todo
+            </button>
+        </div>
+    </main>
+    
+    <!-- Todo Creation Modal -->
+    <div id="todoModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-[#6E3AFF] dark:text-indigo-100">Create New Todo</h3>
+                <button onclick="closeTodoModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="todoForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Task Title</label>
+                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600" placeholder="Enter task title" required>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                    <textarea class="w-full px-3 py-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600" rows="3" placeholder="Enter task description"></textarea>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Priority</label>
+                        <select class="w-full px-3 py-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                            <option value="high">High</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
+                        <select class="w-full px-3 py-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                            <option value="work">Work</option>
+                            <option value="personal">Personal</option>
+                            <option value="health">Health</option>
+                            <option value="learning">Learning</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Due Date</label>
+                    <input type="date" class="w-full px-3 py-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button onclick="window.location.href='task.html'" type="submit" class="bg-[#6E3AFF] text-white px-4 py-2 rounded-lg hover:bg-[#5D2EE0]">Create Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Theme detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark');
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('todoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeTodoModal();
+            }
+        });
+    </script>
 </body>
 </html>

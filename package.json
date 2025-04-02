@@ -18,6 +18,7 @@
     "ejs": "^3.1.9",
     "express": "^4.19.2",
     "express-session": "^1.17.4",
+    "nodemon": "^3.1.9",
     "passport": "^0.6.0",
     "passport-google-oauth2": "^0.2.0",
     "passport-local": "^1.0.0",

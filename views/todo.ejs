@@ -94,11 +94,49 @@
     
     <!-- Main Content -->
     <main class="flex-grow space-y-6">
-        <!-- Task List -->
+        <!-- Monthly Task List -->
         <div class="bg-white p-6 rounded-xl shadow-lg border border-[#6E3AFF]/20 dark:bg-indigo-900/30 dark:border-indigo-800/50">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-lg font-semibold text-[#6E3AFF] dark:text-indigo-100 flex items-center hindi-text" data-hindi="दैनिक/साप्ताहिक कार्य" data-english="Daily/Weekly Tasks">
-                    <i class="fas fa-clipboard-list mr-2 text-[#AD49E1] dark:text-indigo-400"></i> Daily/Weekly Tasks
+                <h2 class="text-lg font-semibold text-[#6E3AFF] dark:text-indigo-100 flex items-center hindi-text" data-hindi="मासिक कार्य" data-english="Monthly Tasks">
+                    <i class="fas fa-calendar-alt mr-2 text-[#AD49E1] dark:text-indigo-400"></i> Monthly Tasks
+                </h2>
+                <span id="monthly-task-count" class="text-sm bg-[#6E3AFF]/10 text-[#6E3AFF] px-2 py-1 rounded-full dark:bg-indigo-900/50 dark:text-indigo-300 hindi-text" data-hindi="0/5 पूर्ण" data-english="0/5 Complete">0/5 Complete</span>
+            </div>
+            
+            <ul id="monthly-task-list" class="space-y-3">
+                <li class="task-item flex items-center bg-[#6E3AFF]/5 hover:bg-[#6E3AFF]/10 p-4 rounded-lg shadow-sm border-l-4 border-[#6E3AFF] transition-all duration-200 dark:bg-indigo-800/20 dark:hover:bg-indigo-800/30">
+                    <input type="checkbox" class="mr-3 w-5 h-5 accent-[#6EACDA] cursor-pointer" onclick="updateProgress()">
+                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="मासिक वित्तीय रिपोर्ट तैयार करें" data-english="Conduct a sales promotion (e.g., discounts on bulk purchases or festive offers) to attract new customers">Conduct a sales promotion (e.g., discounts on bulk purchases or festive offers) to attract new customers</span>
+                    <i class="fas fa-info-circle text-[#6E3AFF]/50 hover:text-[#AD49E1] cursor-pointer dark:text-indigo-400/50 dark:hover:text-indigo-300"></i>
+                </li>
+                <li class="task-item flex items-center bg-[#6E3AFF]/5 hover:bg-[#6E3AFF]/10 p-4 rounded-lg shadow-sm border-l-4 border-[#AD49E1] transition-all duration-200 dark:bg-indigo-800/20 dark:hover:bg-indigo-800/30">
+                    <input type="checkbox" class="mr-3 w-5 h-5 accent-[#6EACDA] cursor-pointer" onclick="updateProgress()">
+                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="टीम प्रदर्शन समीक्षा" data-english=" Organize a loyalty program (e.g., stamp cards for repeat purchases) to retain existing customers. "> Organize a loyalty program (e.g., stamp cards for repeat purchases) to retain existing customers. </span>
+                    <i class="fas fa-info-circle text-[#6E3AFF]/50 hover:text-[#AD49E1] cursor-pointer dark:text-indigo-400/50 dark:hover:text-indigo-300"></i>
+                </li>
+                <li class="task-item flex items-center bg-[#6E3AFF]/5 hover:bg-[#6E3AFF]/10 p-4 rounded-lg shadow-sm border-l-4 border-[#6EACDA] transition-all duration-200 dark:bg-indigo-800/20 dark:hover:bg-indigo-800/30">
+                    <input type="checkbox" class="mr-3 w-5 h-5 accent-[#6EACDA] cursor-pointer" onclick="updateProgress()">
+                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="मासिक लक्ष्यों की समीक्षा करें" data-english="Train staff monthly on product knowledge, customer service, and basic digital tools.">Train staff monthly on product knowledge, customer service, and basic digital tools.</span>
+                    <i class="fas fa-info-circle text-[#6E3AFF]/50 hover:text-[#AD49E1] cursor-pointer dark:text-indigo-400/50 dark:hover:text-indigo-300"></i>
+                </li>
+                <li class="task-item flex items-center bg-[#6E3AFF]/5 hover:bg-[#6E3AFF]/10 p-4 rounded-lg shadow-sm border-l-4 border-[#6E3AFF] transition-all duration-200 dark:bg-indigo-800/20 dark:hover:bg-indigo-800/30">
+                    <input type="checkbox" class="mr-3 w-5 h-5 accent-[#6EACDA] cursor-pointer" onclick="updateProgress()">
+                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="ग्राहक संतुष्टि सर्वेक्षण" data-english=" Analyze government schemes (e.g., MUDRA loans, PMEGP) for financial aid or subsidized training programs. "> Analyze government schemes (e.g., MUDRA loans, PMEGP) for financial aid or subsidized training programs. </span>
+                    <i class="fas fa-info-circle text-[#6E3AFF]/50 hover:text-[#AD49E1] cursor-pointer dark:text-indigo-400/50 dark:hover:text-indigo-300"></i>
+                </li>
+                <li class="task-item flex items-center bg-[#6E3AFF]/5 hover:bg-[#6E3AFF]/10 p-4 rounded-lg shadow-sm border-l-4 border-[#AD49E1] transition-all duration-200 dark:bg-indigo-800/20 dark:hover:bg-indigo-800/30">
+                    <input type="checkbox" class="mr-3 w-5 h-5 accent-[#6EACDA] cursor-pointer" onclick="updateProgress()">
+                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="मासिक रणनीति सत्र" data-english="Audit inventory to optimize stock levels and reduce waste.">Audit inventory to optimize stock levels and reduce waste.</span>
+                    <i class="fas fa-info-circle text-[#6E3AFF]/50 hover:text-[#AD49E1] cursor-pointer dark:text-indigo-400/50 dark:hover:text-indigo-300"></i>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Daily/Weekly Task List -->
+        <div class="bg-white p-6 rounded-xl shadow-lg border border-[#6E3AFF]/20 dark:bg-indigo-900/30 dark:border-indigo-800/50">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold text-[#6E3AFF] dark:text-indigo-100 flex items-center hindi-text" data-hindi="साप्ताहिक कार्य" data-english="Weekly Tasks">
+                    <i class="fas fa-clipboard-list mr-2 text-[#AD49E1] dark:text-indigo-400"></i> Weekly Tasks
                 </h2>
                 <span id="task-count" class="text-sm bg-[#6E3AFF]/10 text-[#6E3AFF] px-2 py-1 rounded-full dark:bg-indigo-900/50 dark:text-indigo-300 hindi-text" data-hindi="0/5 पूर्ण" data-english="0/5 Complete">0/5 Complete</span>
             </div>
@@ -106,27 +144,27 @@
             <ul id="task-list" class="space-y-3">
                 <li class="task-item flex items-center bg-[#6E3AFF]/5 hover:bg-[#6E3AFF]/10 p-4 rounded-lg shadow-sm border-l-4 border-[#6E3AFF] transition-all duration-200 dark:bg-indigo-800/20 dark:hover:bg-indigo-800/30">
                     <input type="checkbox" class="mr-3 w-5 h-5 accent-[#6EACDA] cursor-pointer" onclick="updateProgress()">
-                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="प्रतिस्पर्धियों के बारे में शोध करें" data-english="Research about competitors">Research about competitors</span>
+                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="प्रतिस्पर्धियों के बारे में शोध करें" data-english=" Post 3-4 times weekly on social media (Facebook/Instagram) showcasing products, offers, and customer testimonials"> Post 3-4 times weekly on social media (Facebook/Instagram) showcasing products, offers, and customer testimonials</span>
                     <i class="fas fa-info-circle text-[#6E3AFF]/50 hover:text-[#AD49E1] cursor-pointer dark:text-indigo-400/50 dark:hover:text-indigo-300"></i>
                 </li>
                 <li class="task-item flex items-center bg-[#6E3AFF]/5 hover:bg-[#6E3AFF]/10 p-4 rounded-lg shadow-sm border-l-4 border-[#AD49E1] transition-all duration-200 dark:bg-indigo-800/20 dark:hover:bg-indigo-800/30">
                     <input type="checkbox" class="mr-3 w-5 h-5 accent-[#6EACDA] cursor-pointer" onclick="updateProgress()">
-                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="ग्राहक सहभागिता में सुधार करें" data-english="Improve customer engagement">Improve customer engagement</span>
+                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="ग्राहक सहभागिता में सुधार करें" data-english="Collect and review customer feedback via QR code-linked forms or in-store slips. ">Collect and review customer feedback via QR code-linked forms or in-store slips. </span>
                     <i class="fas fa-info-circle text-[#6E3AFF]/50 hover:text-[#AD49E1] cursor-pointer dark:text-indigo-400/50 dark:hover:text-indigo-300"></i>
                 </li>
                 <li class="task-item flex items-center bg-[#6E3AFF]/5 hover:bg-[#6E3AFF]/10 p-4 rounded-lg shadow-sm border-l-4 border-[#6EACDA] transition-all duration-200 dark:bg-indigo-800/20 dark:hover:bg-indigo-800/30">
                     <input type="checkbox" class="mr-3 w-5 h-5 accent-[#6EACDA] cursor-pointer" onclick="updateProgress()">
-                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="बिक्री के रुझान का विश्लेषण करें" data-english="Analyze sales trends">Analyze sales trends</span>
+                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="बिक्री के रुझान का विश्लेषण करें" data-english="Run SMS/email campaigns highlighting weekly discounts or new arrivals.">Run SMS/email campaigns highlighting weekly discounts or new arrivals.</span>
                     <i class="fas fa-info-circle text-[#6E3AFF]/50 hover:text-[#AD49E1] cursor-pointer dark:text-indigo-400/50 dark:hover:text-indigo-300"></i>
                 </li>
                 <li class="task-item flex items-center bg-[#6E3AFF]/5 hover:bg-[#6E3AFF]/10 p-4 rounded-lg shadow-sm border-l-4 border-[#6E3AFF] transition-all duration-200 dark:bg-indigo-800/20 dark:hover:bg-indigo-800/30">
                     <input type="checkbox" class="mr-3 w-5 h-5 accent-[#6EACDA] cursor-pointer" onclick="updateProgress()">
-                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="वित्तीय रिपोर्ट की समीक्षा करें" data-english="Review financial reports">Review financial reports</span>
+                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="वित्तीय रिपोर्ट की समीक्षा करें" data-english="Check competitor pricing and adjust promotions strategically. ">Check competitor pricing and adjust promotions strategically. </span>
                     <i class="fas fa-info-circle text-[#6E3AFF]/50 hover:text-[#AD49E1] cursor-pointer dark:text-indigo-400/50 dark:hover:text-indigo-300"></i>
                 </li>
                 <li class="task-item flex items-center bg-[#6E3AFF]/5 hover:bg-[#6E3AFF]/10 p-4 rounded-lg shadow-sm border-l-4 border-[#AD49E1] transition-all duration-200 dark:bg-indigo-800/20 dark:hover:bg-indigo-800/30">
                     <input type="checkbox" class="mr-3 w-5 h-5 accent-[#6EACDA] cursor-pointer" onclick="updateProgress()">
-                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="टीम प्रदर्शन मूल्यांकन" data-english="Evaluate team performance">Evaluate team performance</span>
+                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="टीम प्रदर्शन मूल्यांकन" data-english="Engage with the community by sponsoring local events or donating essentials to schools/NGOs.">Engage with the community by sponsoring local events or donating essentials to schools/NGOs.</span>
                     <i class="fas fa-info-circle text-[#6E3AFF]/50 hover:text-[#AD49E1] cursor-pointer dark:text-indigo-400/50 dark:hover:text-indigo-300"></i>
                 </li>
             </ul>
@@ -164,7 +202,7 @@
                 <div class="flex justify-between">
                     <div>
                         <p class="text-[#6E3AFF]/80 text-sm hindi-text dark:text-indigo-300/80" data-hindi="पूर्ण हुए कार्य" data-english="Tasks Completed">Tasks Completed</p>
-                        <h3 id="tasks-completed" class="text-2xl font-bold mt-1 text-[#6E3AFF] dark:text-indigo-100">0/5</h3>
+                        <h3 id="tasks-completed" class="text-2xl font-bold mt-1 text-[#6E3AFF] dark:text-indigo-100">0/10</h3>
                         <p class="text-[#6EACDA] text-sm mt-1 hindi-text dark:text-indigo-400" data-hindi="कल से +0" data-english="+0 from yesterday">+0 from yesterday</p>
                     </div>
                     <div class="text-[#AD49E1] text-3xl flex items-center dark:text-indigo-400">
@@ -267,16 +305,11 @@
         let currentLang = 'en';
 
         function updateProgress() {
+            // Update daily/weekly tasks progress
             const checkboxes = document.querySelectorAll('#task-list input[type="checkbox"]');
             const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
             const totalTasks = checkboxes.length;
-            const percentage = Math.round((checkedCount / totalTasks) * 100);
-            
-            const progressBar = document.getElementById('progress-bar');
-            progressBar.style.width = `${percentage}%`;
-            
-            const progressText = document.getElementById('progress-text');
-            progressText.textContent = isEnglish ? `${percentage}% Complete` : `${percentage}% पूर्ण`;
+            const dailyPercentage = Math.round((checkedCount / totalTasks) * 100);
             
             const taskCounter = document.getElementById('task-count');
             taskCounter.textContent = isEnglish ? `${checkedCount}/${totalTasks} Complete` : `${checkedCount}/${totalTasks} पूर्ण`;
@@ -284,27 +317,49 @@
                 checkedCount === totalTasks ? 'bg-[#6EACDA]/20 text-[#6EACDA] dark:bg-indigo-700/50 dark:text-indigo-400' : 'bg-[#6E3AFF]/10 text-[#6E3AFF] dark:bg-indigo-900/50 dark:text-indigo-300'
             }`;
             
+            // Update monthly tasks progress
+            const monthlyCheckboxes = document.querySelectorAll('#monthly-task-list input[type="checkbox"]');
+            const monthlyCheckedCount = Array.from(monthlyCheckboxes).filter(cb => cb.checked).length;
+            const monthlyTotalTasks = monthlyCheckboxes.length;
+            const monthlyPercentage = Math.round((monthlyCheckedCount / monthlyTotalTasks) * 100);
+            
+            const monthlyTaskCounter = document.getElementById('monthly-task-count');
+            monthlyTaskCounter.textContent = isEnglish ? `${monthlyCheckedCount}/${monthlyTotalTasks} Complete` : `${monthlyCheckedCount}/${monthlyTotalTasks} पूर्ण`;
+            monthlyTaskCounter.className = `text-sm px-2 py-1 rounded-full ${
+                monthlyCheckedCount === monthlyTotalTasks ? 'bg-[#6EACDA]/20 text-[#6EACDA] dark:bg-indigo-700/50 dark:text-indigo-400' : 'bg-[#6E3AFF]/10 text-[#6E3AFF] dark:bg-indigo-900/50 dark:text-indigo-300'
+            }`;
+            
+            // Calculate overall progress
+            const overallPercentage = Math.round(((checkedCount + monthlyCheckedCount) / (totalTasks + monthlyTotalTasks)) * 100);
+            
+            const progressBar = document.getElementById('progress-bar');
+            progressBar.style.width = `${overallPercentage}%`;
+            
+            const progressText = document.getElementById('progress-text');
+            progressText.textContent = isEnglish ? `${overallPercentage}% Complete` : `${overallPercentage}% पूर्ण`;
+            
             const completionRate = document.getElementById('completion-rate');
-            completionRate.textContent = `${percentage}%`;
+            completionRate.textContent = `${overallPercentage}%`;
             
             const completionCircle = document.getElementById('completion-circle');
-            completionCircle.setAttribute('stroke-dasharray', `${percentage}, 100`);
+            completionCircle.setAttribute('stroke-dasharray', `${overallPercentage}, 100`);
             
             const completionTrend = document.getElementById('completion-trend');
             completionTrend.innerHTML = isEnglish ? 
-                `<i class='fas fa-arrow-up mr-1'></i> ${percentage}% from last week` : 
-                `<i class='fas fa-arrow-up mr-1'></i> पिछले सप्ताह से ${percentage}%`;
+                `<i class='fas fa-arrow-up mr-1'></i> ${overallPercentage}% from last week` : 
+                `<i class='fas fa-arrow-up mr-1'></i> पिछले सप्ताह से ${overallPercentage}%`;
             
             const tasksCompleted = document.getElementById('tasks-completed');
-            tasksCompleted.textContent = `${checkedCount}/${totalTasks}`;
+            tasksCompleted.textContent = `${checkedCount + monthlyCheckedCount}/${totalTasks + monthlyTotalTasks}`;
             
-            if (checkedCount === totalTasks) {
+            if (checkedCount === totalTasks && monthlyCheckedCount === monthlyTotalTasks) {
                 progressText.classList.add('animate-pulse');
                 setTimeout(() => progressText.classList.remove('animate-pulse'), 2000);
             }
         }
         
-        document.querySelectorAll('.fa-info-circle').forEach(icon => {
+        // Info button handlers for both task lists
+        document.querySelectorAll('#monthly-task-list .fa-info-circle, #task-list .fa-info-circle').forEach(icon => {
             icon.addEventListener('click', function() {
                 const taskText = this.parentElement.querySelector('span').textContent;
                 alert(isEnglish ? 
@@ -332,7 +387,6 @@
         const themeToggle = document.getElementById('theme-toggle');
         const body = document.body;
 
-        // Load saved theme or system preference
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             body.classList.add('dark');
@@ -404,7 +458,7 @@
         const categoryChart = new Chart(categoryCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Research', 'Marketing', 'Finance', 'Team', 'Sales', 'Other'],
+                labels: ['Research', 'Marketing', 'Finance', 'Team', 'Sales', 'Strategy'],
                 datasets: [{
                     data: [15, 22, 18, 12, 20, 13],
                     backgroundColor: [
@@ -442,11 +496,6 @@
                 },
                 cutout: '65%'
             }
-        });
-
-        const translateBtn = document.getElementById('translateBtn');
-        translateBtn.addEventListener('click', () => {
-            setLanguage(isEnglish ? 'hi' : 'en');
         });
     </script>
 </body>
