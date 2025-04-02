@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task & Progress Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .task-item:hover {
+            transform: translateY(-2px);
+        }
+        .progress-text {
+            transition: all 0.3s ease;
+        }
+        .nav-button:hover {
+            transform: scale(1.1);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(110, 58, 255, 0.1);
+        }
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.8s ease;
+        }
+        .settings-panel {
+            transition: all 0.3s ease;
+            transform: translateX(100%);
+        }
+        .settings-panel.active {
+            transform: translateX(0);
+        }
+        .translate-btn {
+            background: linear-gradient(135deg, #6E3AFF, #AD49E1);
+            color: white;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .translate-btn:hover {
+            background: linear-gradient(135deg, #AD49E1, #6EACDA);
+        }
+        .language-option {
+            transition: all 0.2s ease;
+        }
+        .language-option:hover {
+            background-color: rgba(110, 58, 255, 0.1);
+        }
+        .theme-toggle {
+            transition: all 0.3s ease;
+        }
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 10px rgba(110, 58, 255, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(110, 58, 255, 0.6); }
+        }
+        .glow {
+            animation: glow 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-[#6E3AFF]/10 via-[#AD49E1]/10 to-[#6EACDA]/10 min-h-screen flex flex-col px-6 py-6 transition-colors duration-300 dark:bg-gradient-to-br dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6 bg-gradient-to-r from-[#6E3AFF] to-[#AD49E1] p-4 rounded-xl shadow-lg">
+        <h1 class="text-xl font-bold text-white flex items-center hindi-text" data-hindi="Slobby" data-english="Slobby">
+            <i class="fas fa-tasks mr-2"></i>Slobby
+        </h1>
+        <div class="flex items-center space-x-3">
+            <span class="text-white text-sm hidden sm:inline hindi-text" data-hindi="अंतिम अद्यतन: आज" data-english="Last updated: Today">Last updated: Today</span>
+            <button class="profile-btn w-10 h-10 bg-[#6E3AFF] rounded-xl flex items-center justify-center hover:bg-[#AD49E1] hover:shadow-lg hover:shadow-[#6E3AFF]/20 transition-all glow">
+                <i class="fas fa-user text-white"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Subheading -->
+    <div class="text-center mb-6">
+        <h2 class="text-2xl font-bold text-[#6E3AFF] dark:text-indigo-100 mb-1 hindi-text" data-hindi="व्यक्तिगत कार्य योजना" data-english="Personal Task Plan">Personal Task Plan</h2>
+        <p class="text-[#6E3AFF]/80 dark:text-indigo-200/80 hindi-text" data-hindi="Complete your tasks to achieve your goals" data-english="Complete your tasks to achieve your goals">Complete your tasks to achieve your goals</p>
+    </div>
+    
+    <!-- Progress Section -->
+    <div class="bg-white p-5 rounded-xl shadow-md mb-6 transition-all duration-300 hover:shadow-lg border border-[#6E3AFF]/20 dark:bg-indigo-900/30 dark:border-indigo-800/50">
+        <div class="flex justify-between items-center mb-2">
+            <span class="text-sm font-medium text-[#6E3AFF] dark:text-indigo-300 hindi-text" data-hindi="आपकी प्रगति" data-english="Your Progress">Your Progress</span>
+            <span id="progress-text" class="progress-text text-sm font-bold text-[#6EACDA] dark:text-indigo-400 hindi-text" data-hindi="0% पूर्ण" data-english="0% Complete">0% Complete</span>
+        </div>
+        <div class="w-full bg-[#6E3AFF]/10 h-3 rounded-full overflow-hidden dark:bg-indigo-800/40">
+            <div class="bg-gradient-to-r from-[#6E3AFF] to-[#AD49E1] h-full w-0 transition-all duration-500" id="progress-bar"></div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <main class="flex-grow space-y-6">
+        <!-- Task List -->
+        <div class="bg-white p-6 rounded-xl shadow-lg border border-[#6E3AFF]/20 dark:bg-indigo-900/30 dark:border-indigo-800/50">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold text-[#6E3AFF] dark:text-indigo-100 flex items-center hindi-text" data-hindi="दैनिक/साप्ताहिक कार्य" data-english="Daily/Weekly Tasks">
+                    <i class="fas fa-clipboard-list mr-2 text-[#AD49E1] dark:text-indigo-400"></i> Daily/Weekly Tasks
+                </h2>
+                <span id="task-count" class="text-sm bg-[#6E3AFF]/10 text-[#6E3AFF] px-2 py-1 rounded-full dark:bg-indigo-900/50 dark:text-indigo-300 hindi-text" data-hindi="0/5 पूर्ण" data-english="0/5 Complete">0/5 Complete</span>
+            </div>
+            
+            <ul id="task-list" class="space-y-3">
+                <li class="task-item flex items-center bg-[#6E3AFF]/5 hover:bg-[#6E3AFF]/10 p-4 rounded-lg shadow-sm border-l-4 border-[#6E3AFF] transition-all duration-200 dark:bg-indigo-800/20 dark:hover:bg-indigo-800/30">
+                    <input type="checkbox" class="mr-3 w-5 h-5 accent-[#6EACDA] cursor-pointer" onclick="updateProgress()">
+                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="प्रतिस्पर्धियों के बारे में शोध करें" data-english="Research about competitors">Research about competitors</span>
+                    <i class="fas fa-info-circle text-[#6E3AFF]/50 hover:text-[#AD49E1] cursor-pointer dark:text-indigo-400/50 dark:hover:text-indigo-300"></i>
+                </li>
+                <li class="task-item flex items-center bg-[#6E3AFF]/5 hover:bg-[#6E3AFF]/10 p-4 rounded-lg shadow-sm border-l-4 border-[#AD49E1] transition-all duration-200 dark:bg-indigo-800/20 dark:hover:bg-indigo-800/30">
+                    <input type="checkbox" class="mr-3 w-5 h-5 accent-[#6EACDA] cursor-pointer" onclick="updateProgress()">
+                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="ग्राहक सहभागिता में सुधार करें" data-english="Improve customer engagement">Improve customer engagement</span>
+                    <i class="fas fa-info-circle text-[#6E3AFF]/50 hover:text-[#AD49E1] cursor-pointer dark:text-indigo-400/50 dark:hover:text-indigo-300"></i>
+                </li>
+                <li class="task-item flex items-center bg-[#6E3AFF]/5 hover:bg-[#6E3AFF]/10 p-4 rounded-lg shadow-sm border-l-4 border-[#6EACDA] transition-all duration-200 dark:bg-indigo-800/20 dark:hover:bg-indigo-800/30">
+                    <input type="checkbox" class="mr-3 w-5 h-5 accent-[#6EACDA] cursor-pointer" onclick="updateProgress()">
+                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="बिक्री के रुझान का विश्लेषण करें" data-english="Analyze sales trends">Analyze sales trends</span>
+                    <i class="fas fa-info-circle text-[#6E3AFF]/50 hover:text-[#AD49E1] cursor-pointer dark:text-indigo-400/50 dark:hover:text-indigo-300"></i>
+                </li>
+                <li class="task-item flex items-center bg-[#6E3AFF]/5 hover:bg-[#6E3AFF]/10 p-4 rounded-lg shadow-sm border-l-4 border-[#6E3AFF] transition-all duration-200 dark:bg-indigo-800/20 dark:hover:bg-indigo-800/30">
+                    <input type="checkbox" class="mr-3 w-5 h-5 accent-[#6EACDA] cursor-pointer" onclick="updateProgress()">
+                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="वित्तीय रिपोर्ट की समीक्षा करें" data-english="Review financial reports">Review financial reports</span>
+                    <i class="fas fa-info-circle text-[#6E3AFF]/50 hover:text-[#AD49E1] cursor-pointer dark:text-indigo-400/50 dark:hover:text-indigo-300"></i>
+                </li>
+                <li class="task-item flex items-center bg-[#6E3AFF]/5 hover:bg-[#6E3AFF]/10 p-4 rounded-lg shadow-sm border-l-4 border-[#AD49E1] transition-all duration-200 dark:bg-indigo-800/20 dark:hover:bg-indigo-800/30">
+                    <input type="checkbox" class="mr-3 w-5 h-5 accent-[#6EACDA] cursor-pointer" onclick="updateProgress()">
+                    <span class="text-[#6E3AFF] flex-grow hindi-text dark:text-indigo-200" data-hindi="टीम प्रदर्शन मूल्यांकन" data-english="Evaluate team performance">Evaluate team performance</span>
+                    <i class="fas fa-info-circle text-[#6E3AFF]/50 hover:text-[#AD49E1] cursor-pointer dark:text-indigo-400/50 dark:hover:text-indigo-300"></i>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Completion Rate -->
+            <div class="bg-white rounded-xl p-5 shadow-md transition-all duration-300 card-hover border border-[#6E3AFF]/20 dark:bg-indigo-900/30 dark:border-indigo-800/50">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[#6E3AFF]/80 text-sm hindi-text dark:text-indigo-300/80" data-hindi="पूर्णता दर" data-english="Completion Rate">Completion Rate</p>
+                        <h3 id="completion-rate" class="text-2xl font-bold mt-1 text-[#6E3AFF] dark:text-indigo-100">0%</h3>
+                        <p id="completion-trend" class="text-[#6EACDA] text-sm mt-1 flex items-center hindi-text dark:text-indigo-400" data-hindi="<i class='fas fa-arrow-up mr-1'></i> पिछले सप्ताह से 0%" data-english="<i class='fas fa-arrow-up mr-1'></i> 0% from last week">
+                            <i class="fas fa-arrow-up mr-1"></i> 0% from last week
+                        </p>
+                    </div>
+                    <div class="w-14 h-14">
+                        <svg class="w-full h-full" viewBox="0 0 36 36">
+                            <path d="M18 2.0845
+                                a 15.9155 15.9155 0 0 1 0 31.831
+                                a 15.9155 15.9155 0 0 1 0 -31.831"
+                                fill="none" stroke="#6E3AFF/20" stroke-width="3" class="dark:stroke-indigo-800/40"/>
+                            <path id="completion-circle" d="M18 2.0845
+                                a 15.9155 15.9155 0 0 1 0 31.831
+                                a 15.9155 15.9155 0 0 1 0 -31.831"
+                                fill="none" stroke="#6EACDA" stroke-width="3" stroke-dasharray="0, 100"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tasks Completed -->
+            <div class="bg-white rounded-xl p-5 shadow-md transition-all duration-300 card-hover border border-[#6E3AFF]/20 dark:bg-indigo-900/30 dark:border-indigo-800/50">
+                <div class="flex justify-between">
+                    <div>
+                        <p class="text-[#6E3AFF]/80 text-sm hindi-text dark:text-indigo-300/80" data-hindi="पूर्ण हुए कार्य" data-english="Tasks Completed">Tasks Completed</p>
+                        <h3 id="tasks-completed" class="text-2xl font-bold mt-1 text-[#6E3AFF] dark:text-indigo-100">0/5</h3>
+                        <p class="text-[#6EACDA] text-sm mt-1 hindi-text dark:text-indigo-400" data-hindi="कल से +0" data-english="+0 from yesterday">+0 from yesterday</p>
+                    </div>
+                    <div class="text-[#AD49E1] text-3xl flex items-center dark:text-indigo-400">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task Distribution Chart -->
+        <div class="bg-white p-5 rounded-xl shadow-md border border-[#6E3AFF]/20 dark:bg-indigo-900/30 dark:border-indigo-800/50">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="font-semibold text-[#6E3AFF] hindi-text dark:text-indigo-100" data-hindi="कार्य श्रेणियाँ" data-english="Task Categories">Task Categories</h2>
+                <div class="flex space-x-2">
+                    <button class="text-sm bg-[#6E3AFF]/10 text-[#6E3AFF] px-2 py-1 rounded hover:bg-[#6E3AFF]/20 dark:bg-indigo-900/50 dark:text-indigo-300 dark:hover:bg-indigo-900/70 hindi-text" data-hindi="सभी को देखें" data-english="View All">View All</button>
+                </div>
+            </div>
+            <div class="h-64">
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Settings Panel -->
+    <div id="settingsPanel" class="settings-panel fixed right-0 top-0 h-full w-80 bg-white backdrop-blur-sm border-l border-[#6E3AFF]/20 p-6 overflow-y-auto z-10 shadow-lg dark:bg-gray-800 dark:border-gray-700">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-bold text-[#6E3AFF] dark:text-gray-100">Settings</h2>
+            <button id="closeSettings" class="p-2 rounded-full hover:bg-[#6E3AFF]/10 dark:hover:bg-gray-700">
+                <i class="fas fa-times text-[#6E3AFF] dark:text-gray-400"></i>
+            </button>
+        </div>
+
+        <!-- Theme Toggle -->
+        <div class="mb-8">
+            <h3 class="text-lg font-semibold mb-4 text-[#6E3AFF] dark:text-gray-300">Appearance</h3>
+            <div class="flex items-center justify-between p-4 bg-[#6E3AFF]/10 rounded-lg border border-[#6E3AFF]/20 dark:bg-gray-700 dark:border-gray-600">
+                <span class="text-[#6E3AFF] dark:text-gray-300">Dark Mode</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="theme-toggle" class="sr-only peer">
+                    <div class="w-11 h-6 bg-[#6E3AFF]/20 rounded-full peer peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#6E3AFF]/30 dark:bg-gray-600 dark:peer-focus:ring-gray-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#6E3AFF]/30 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-500 peer-checked:bg-[#6E3AFF]"></div>
+                </label>
+            </div>
+        </div>
+
+        <!-- Language Selector -->
+        <div class="mb-8">
+            <h3 class="text-lg font-semibold mb-4 text-[#6E3AFF] dark:text-gray-300">Language</h3>
+            <div class="space-y-2">
+                <div id="lang-en" class="language-option flex items-center p-3 rounded-lg bg-[#6E3AFF]/10 border border-[#6E3AFF]/20 cursor-pointer dark:bg-indigo-900/30 dark:border-indigo-700">
+                    <span class="w-8 h-8 rounded-full bg-[#6E3AFF]/20 flex items-center justify-center mr-3 dark:bg-indigo-800">
+                        <span class="text-sm font-medium text-[#6E3AFF] dark:text-indigo-300">EN</span>
+                    </span>
+                    <span class="text-[#6E3AFF] dark:text-gray-200">English</span>
+                    <i class="fas fa-check ml-auto text-[#6E3AFF] dark:text-indigo-400"></i>
+                </div>
+                <div id="lang-hi" class="language-option flex items-center p-3 rounded-lg hover:bg-[#6E3AFF]/10 cursor-pointer border border-transparent hover:border-[#6E3AFF]/20 dark:hover:bg-gray-700 dark:border-gray-700 dark:hover:border-gray-600">
+                    <span class="w-8 h-8 rounded-full bg-[#6E3AFF]/10 flex items-center justify-center mr-3 dark:bg-gray-600">
+                        <span class="text-sm font-medium text-[#6E3AFF] dark:text-gray-300">HI</span>
+                    </span>
+                    <span class="text-[#6E3AFF] dark:text-gray-200">हिंदी (Hindi)</span>
+                    <i class="fas fa-check ml-auto text-[#6E3AFF] hidden dark:text-indigo-400"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other Settings -->
+        <div>
+            <h3 class="text-lg font-semibold mb-4 text-[#6E3AFF] dark:text-gray-300">More Options</h3>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between p-3 hover:bg-[#6E3AFF]/10 rounded-lg cursor-pointer border border-transparent hover:border-[#6E3AFF]/20 dark:hover:bg-gray-700 dark:border-gray-700 dark:hover:border-gray-600">
+                    <span class="text-[#6E3AFF] dark:text-gray-200">Notifications</span>
+                    <i class="fas fa-chevron-right text-[#6E3AFF]/70 dark:text-gray-400"></i>
+                </div>
+                <div class="flex items-center justify-between p-3 hover:bg-[#6E3AFF]/10 rounded-lg cursor-pointer border border-transparent hover:border-[#6E3AFF]/20 dark:hover:bg-gray-700 dark:border-gray-700 dark:hover:border-gray-600">
+                    <span class="text-[#6E3AFF] dark:text-gray-200">Account Settings</span>
+                    <i class="fas fa-chevron-right text-[#6E3AFF]/70 dark:text-gray-400"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation -->
+    <div class="fixed bottom-0 left-0 right-0 flex justify-around py-2 bg-gradient-to-r from-[#6E3AFF] to-[#AD49E1] rounded-t-xl shadow-lg text-white z-20">
+        <button onclick="window.location.href='dashboard.html'" class="nav-button font-semibold flex flex-col items-center transition-all duration-200">
+            <i class="fas fa-home text-lg mb-0.5"></i>
+            <span class="text-[10px] hindi-text" data-hindi="होम" data-english="Home">Home</span>
+        </button>
+        <button class="nav-button font-semibold flex flex-col items-center transition-all duration-200 text-[#6EACDA]">
+            <i class="fas fa-chart-line text-lg mb-0.5"></i>
+            <span class="text-[10px] hindi-text" data-hindi="प्रगति" data-english="Progress">Progress</span>
+        </button>
+        <button id="settingsBtn" class="nav-button font-semibold flex flex-col items-center transition-all duration-200">
+            <i class="fas fa-cog text-lg mb-0.5"></i>
+            <span class="text-[10px] hindi-text" data-hindi="सेटिंग्स" data-english="Settings">Settings</span>
+        </button>
+    </div>
+    
+    <script>
+        let isEnglish = true;
+        let currentLang = 'en';
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('#task-list input[type="checkbox"]');
+            const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const totalTasks = checkboxes.length;
+            const percentage = Math.round((checkedCount / totalTasks) * 100);
+            
+            const progressBar = document.getElementById('progress-bar');
+            progressBar.style.width = `${percentage}%`;
+            
+            const progressText = document.getElementById('progress-text');
+            progressText.textContent = isEnglish ? `${percentage}% Complete` : `${percentage}% पूर्ण`;
+            
+            const taskCounter = document.getElementById('task-count');
+            taskCounter.textContent = isEnglish ? `${checkedCount}/${totalTasks} Complete` : `${checkedCount}/${totalTasks} पूर्ण`;
+            taskCounter.className = `text-sm px-2 py-1 rounded-full ${
+                checkedCount === totalTasks ? 'bg-[#6EACDA]/20 text-[#6EACDA] dark:bg-indigo-700/50 dark:text-indigo-400' : 'bg-[#6E3AFF]/10 text-[#6E3AFF] dark:bg-indigo-900/50 dark:text-indigo-300'
+            }`;
+            
+            const completionRate = document.getElementById('completion-rate');
+            completionRate.textContent = `${percentage}%`;
+            
+            const completionCircle = document.getElementById('completion-circle');
+            completionCircle.setAttribute('stroke-dasharray', `${percentage}, 100`);
+            
+            const completionTrend = document.getElementById('completion-trend');
+            completionTrend.innerHTML = isEnglish ? 
+                `<i class='fas fa-arrow-up mr-1'></i> ${percentage}% from last week` : 
+                `<i class='fas fa-arrow-up mr-1'></i> पिछले सप्ताह से ${percentage}%`;
+            
+            const tasksCompleted = document.getElementById('tasks-completed');
+            tasksCompleted.textContent = `${checkedCount}/${totalTasks}`;
+            
+            if (checkedCount === totalTasks) {
+                progressText.classList.add('animate-pulse');
+                setTimeout(() => progressText.classList.remove('animate-pulse'), 2000);
+            }
+        }
+        
+        document.querySelectorAll('.fa-info-circle').forEach(icon => {
+            icon.addEventListener('click', function() {
+                const taskText = this.parentElement.querySelector('span').textContent;
+                alert(isEnglish ? 
+                    `Details for: ${taskText}\n\nTask details will be shown here.` : 
+                    `विवरण: ${taskText}\n\nकार्य विवरण यहां दिखाया जाएगा।`);
+            });
+        });
+        
+        const settingsBtn = document.getElementById('settingsBtn');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const closeSettings = document.getElementById('closeSettings');
+        
+        settingsBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            settingsPanel.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        closeSettings.addEventListener('click', () => {
+            settingsPanel.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // Load saved theme or system preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            body.classList.add('dark');
+            themeToggle.checked = true;
+        } else {
+            body.classList.remove('dark');
+            themeToggle.checked = false;
+        }
+
+        themeToggle.addEventListener('change', () => {
+            if (themeToggle.checked) {
+                body.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Language Selection Functionality
+        const langEn = document.getElementById('lang-en');
+        const langHi = document.getElementById('lang-hi');
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            isEnglish = lang === 'en';
+            
+            document.querySelectorAll('.hindi-text').forEach(element => {
+                const hindiText = element.getAttribute('data-hindi');
+                const englishText = element.getAttribute('data-english');
+                if (element.innerHTML.includes('<i')) {
+                    element.innerHTML = lang === 'en' ? englishText : hindiText;
+                } else {
+                    element.textContent = lang === 'en' ? englishText : hindiText;
+                }
+            });
+            
+            if (lang === 'en') {
+                langEn.classList.add('bg-[#6E3AFF]/10', 'border-[#6E3AFF]/20', 'dark:bg-indigo-900/30', 'dark:border-indigo-700');
+                langHi.classList.remove('bg-[#6E3AFF]/10', 'border-[#6E3AFF]/20', 'dark:bg-indigo-900/30', 'dark:border-indigo-700');
+                langHi.querySelector('i').classList.add('hidden');
+                langEn.querySelector('i').classList.remove('hidden');
+            } else {
+                langHi.classList.add('bg-[#6E3AFF]/10', 'border-[#6E3AFF]/20', 'dark:bg-indigo-900/30', 'dark:border-indigo-700');
+                langEn.classList.remove('bg-[#6E3AFF]/10', 'border-[#6E3AFF]/20', 'dark:bg-indigo-900/30', 'dark:border-indigo-700');
+                langEn.querySelector('i').classList.add('hidden');
+                langHi.querySelector('i').classList.remove('hidden');
+            }
+            
+            localStorage.setItem('language', lang);
+            updateProgress();
+        }
+
+        const savedLang = localStorage.getItem('language') || 'en';
+        setLanguage(savedLang);
+
+        langHi.addEventListener('click', () => setLanguage('hi'));
+        langEn.addEventListener('click', () => setLanguage('en'));
+
+        // Close settings when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!settingsPanel.contains(e.target) && e.target !== settingsBtn) {
+                settingsPanel.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+        
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        const categoryChart = new Chart(categoryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Research', 'Marketing', 'Finance', 'Team', 'Sales', 'Other'],
+                datasets: [{
+                    data: [15, 22, 18, 12, 20, 13],
+                    backgroundColor: [
+                        'rgba(110, 58, 255, 0.7)',
+                        'rgba(173, 73, 225, 0.7)',
+                        'rgba(110, 172, 218, 0.7)',
+                        'rgba(110, 58, 255, 0.7)',
+                        'rgba(173, 73, 225, 0.7)',
+                        'rgba(110, 172, 218, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(110, 58, 255, 1)',
+                        'rgba(173, 73, 225, 1)',
+                        'rgba(110, 172, 218, 1)',
+                        'rgba(110, 58, 255, 1)',
+                        'rgba(173, 73, 225, 1)',
+                        'rgba(110, 172, 218, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            color: '#6E3AFF',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                },
+                cutout: '65%'
+            }
+        });
+
+        const translateBtn = document.getElementById('translateBtn');
+        translateBtn.addEventListener('click', () => {
+            setLanguage(isEnglish ? 'hi' : 'en');
+        });
+    </script>
+</body>
+</html>
