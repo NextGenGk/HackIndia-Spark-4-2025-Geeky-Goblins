@@ -11,6 +11,7 @@ import axios from "axios";
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+const router = express.Router();
 
 // Fix __dirname in ES Modules
 const __filename = fileURLToPath(import.meta.url);
