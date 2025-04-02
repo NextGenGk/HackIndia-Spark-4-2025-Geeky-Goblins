@@ -457,7 +457,7 @@
           <button onclick="showPage('page3')" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 flex items-center">
             <i class="fas fa-arrow-left mr-2"></i> <span data-en="Previous" data-hi="पिछला">Previous</span>
           </button>
-          <button onclick="window.location.href('/dashboard')" class="bg-[#A8B5A2] text-gray-800 px-6 py-3 rounded-lg hover:bg-[#8E9E89] font-bold animate-pulse flex items-center">
+          <button onclick="window.location.href=('/dashboard')" class="bg-[#A8B5A2] text-gray-800 px-6 py-3 rounded-lg hover:bg-[#8E9E89] font-bold animate-pulse flex items-center">
             <span data-en="Submit" data-hi="जमा करें">Submit</span> <i class="fas fa-paper-plane ml-2"></i>
           </button>
         </div>
@@ -519,23 +519,6 @@
         }
       }
     });
-    
-    function submitForm() {
-      // Simple alert instead of the submission page
-      alert('Form submitted successfully!');
-      // Optionally reset the form
-      showPage('page1');
-      document.getElementById('progressFilled').style.width = '25%';
-      document.querySelectorAll('input, textarea, select').forEach(element => {
-        if (element.type !== 'submit' && element.type !== 'button') {
-          element.value = '';
-          if (element.type === 'radio' || element.type === 'checkbox') {
-            element.checked = false;
-          }
-        }
-      });
-      updateRadioCards();
-    }
     
     let isHindi = false;
     function translateToHindi() {

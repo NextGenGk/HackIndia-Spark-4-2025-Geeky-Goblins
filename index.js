@@ -155,55 +155,56 @@ app.get("/input", (req, res) => {
       }
 });
 
-app.get("/input", (req, res) => {
-  res.render("input.ejs");
-})
+// app.get("/input", (req, res) => {
+//   res.render("input.ejs");
+// })
 
 app.post('/input', async (req, res) => {
-  try {
-    console.log("Received form data:", req.body);
+//   try {
+//     console.log("Received form data:", req.body);
     
-    // Retrieve user id from req.user if using authentication, otherwise fallback to req.body.user_id
-    const userId = req.user ? req.user.id : req.body.user_id;
+//     // Retrieve user id from req.user if using authentication, otherwise fallback to req.body.user_id
+//     const userId = req.user ? req.user.id : req.body.user_id;
     
-    const {
-      b_name,
-      loc,
-      type_p_s,
-      description,
-      monthly_revenue,
-      numOfEmp,
-      challenges,
-      govtschemeavail,
-      b_type,
-    } = req.body;
+//     const {
+//       b_name,
+//       loc,
+//       type_p_s,
+//       description,
+//       monthly_revenue,
+//       numOfEmp,
+//       challenges,
+//       govtschemeavail,
+//       b_type,
+//     } = req.body;
 
-    const queryText = `
-      INSERT INTO input 
-        (b_name, loc, type_p_s, description, monthly_revenue, numofemp, challenges, govtschemeavail, b_type, user_id)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-      RETURNING *
-    `;
-    const values = [
-      b_name,
-      loc,
-      type_p_s,
-      description,
-      monthly_revenue,
-      numOfEmp, // Corrected variable name
-      challenges,
-      govtschemeavail,
-      b_type,
-      userId
-    ];
+//     const queryText = `
+//       INSERT INTO input 
+//         (b_name, loc, type_p_s, description, monthly_revenue, numofemp, challenges, govtschemeavail, b_type, user_id)
+//       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+//       RETURNING *
+//     `;
+//     const values = [
+//       b_name,
+//       loc,
+//       type_p_s,
+//       description,
+//       monthly_revenue,
+//       numOfEmp, // Corrected variable name
+//       challenges,
+//       govtschemeavail,
+//       b_type,
+//       userId
+//     ];
 
-    const result = await pool.query(queryText, values);
-    console.log("Insert result:", result.rows[0]);
-    res.json({ success: true, data: result.rows[0] });
-  } catch (error) {
-    console.error('Error inserting data:', error);
-    res.status(500).json({ success: false, error: error.message });
-  }
+//     const result = await pool.query(queryText, values);
+//     console.log("Insert result:", result.rows[0]);
+    res.render("dashboard.ejs" ,{theName : thatUser});
+    // res.json({ success: true, data: result.rows[0] });
+  // } catch (error) {
+    // console.error('Error inserting data:', error);
+    // res.status(500).json({ success: false, error: error.message });
+  // }
 });
 
 
