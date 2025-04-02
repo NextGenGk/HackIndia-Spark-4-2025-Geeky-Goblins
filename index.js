@@ -269,75 +269,76 @@ app.get("/todo", (req, res) =>{
 })
 
 router.get('/task', async (req, res) => {
-  if (!req.isAuthenticated()) {
-    return res.redirect('/login');
-  }
+  res.render('task.ejs');
+});
+  
 
-  try {
-    // Get the authenticated user's id
-    const userId = req.user.id;
+  // try {
+  //   // Get the authenticated user's id
+  //   const userId = req.user.id;
 
-    // Retrieve the most recent input for the user (modify query as needed)
-    const inputQuery = `
-      SELECT * 
-      FROM input 
-      WHERE user_id = $1 
-      ORDER BY data_id DESC 
-      LIMIT 1
-    `;
-    const inputResult = await pool.query(inputQuery, [userId]);
+  //   // Retrieve the most recent input for the user (modify query as needed)
+  //   const inputQuery = `
+  //     SELECT * 
+  //     FROM input 
+  //     WHERE user_id = $1 
+  //     ORDER BY data_id DESC 
+  //     LIMIT 1
+  //   `;
+  //   const inputResult = await pool.query(inputQuery, [userId]);
 
-    if (inputResult.rows.length === 0) {
-      // No input data found; handle this accordingly
-      return res.status(404).send('No input data found for the user.');
-    }
+  //   if (inputResult.rows.length === 0) {
+  //     // No input data found; handle this accordingly
+  //     return res.status(404).send('No input data found for the user.');
+  //   }
 
-    const inputData = inputResult.rows[0];
+  //   const inputData = inputResult.rows[0];
 
-    // Call the external API with the input data.
-    // Replace 'https://your-api-url.com/api/llm' with your actual API endpoint.
-    const apiResponse = await axios.post('https://generate-plan.onrender.com', {
-      b_name: inputData.b_name,
-      loc: inputData.loc,
-      type_p_s: inputData.type_p_s,
-      description: inputData.description,
-      monthly_revenue: inputData.monthly_revenue,
-      numofemp: inputData.numofemp,
-      challenges: inputData.challenges,
-      govtschemeavail: inputData.govtschemeavail,
-      b_type: inputData.b_type
-    });
+  //   // Call the external API with the input data.
+  //   // Replace 'https://your-api-url.com/api/llm' with your actual API endpoint.
+  //   const apiResponse = await axios.post('https://generate-plan.onrender.com', {
+  //     b_name: inputData.b_name,
+  //     loc: inputData.loc,
+  //     type_p_s: inputData.type_p_s,
+  //     description: inputData.description,
+  //     monthly_revenue: inputData.monthly_revenue,
+  //     numofemp: inputData.numofemp,
+  //     challenges: inputData.challenges,
+  //     govtschemeavail: inputData.govtschemeavail,
+  //     b_type: inputData.b_type
+  //   });
 
-    // Destructure the returned data
-    const { monthly_task, weekly_task, supportive_task } = apiResponse.data;
+  //   // Destructure the returned data
+  //   const { monthly_task, weekly_task, supportive_task } = apiResponse.data;
 
-    // Insert the API response into the todo_llm table
-    const insertQuery = `
-      INSERT INTO todo_llm (user_id, input_id, monthly_task, weekly_task, supportive_hints)
-      VALUES ($1, $2, $3, $4, $5)
-    `;
-    await db.query(insertQuery, [
-      userId,
-      inputData.data_id, // assuming your primary key in the input table is data_id
-      monthly_task,
-      weekly_task,
-      supportive_task
-    ]);
+  //   // Insert the API response into the todo_llm table
+  //   const insertQuery = `
+  //     INSERT INTO todo_llm (user_id, input_id, monthly_task, weekly_task, supportive_hints)
+  //     VALUES ($1, $2, $3, $4, $5)
+  //   `;
+  //   await db.query(insertQuery, [
+  //     userId,
+  //     inputData.data_id, // assuming your primary key in the input table is data_id
+  //     monthly_task,
+  //     weekly_task,
+  //     supportive_task]
+  //  );
 
         // Render the task page with tasks data
-        res.render('task.ejs', {
-          monthly_task: monthly_task,
-          weekly_task: weekly_task,
-          supportive_task: supportive_task
-        });
-      } catch (err) {
-        console.error('Error in /task route:', err);
-        res.status(500).send('Server Error');
-      }
-    });
+    //     res.render('task.ejs', {
+    //       monthly_task: monthly_task,
+    //       weekly_task: weekly_task,
+    //       supportive_task: supportive_task
+    //     });
+    //   } catch (err) {
+    //     console.error('Error in /task route:', err);
+    //     res.status(500).send('Server Error');
+    //   }
+    // });
     
-    export default router;
-passport.use("local",
+    // export default router;
+
+    passport.use("local",
   new Strategy(async function verify(username, password, cb) {
     try {
       const result = await db.query("SELECT * FROM users WHERE email = $1 ", [
